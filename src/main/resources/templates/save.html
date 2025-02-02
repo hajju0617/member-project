@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>save</title>
+</head>
+<body>
+    <!--  action 속성 : form에 작성한 데이터를 어디로 보낼지 지정  -->
+    <form action="/member/save" method="post">
+    <label>
+        <!-- name 속성 : 서버로 전송할 때 변수명 역할을 함. -->
+        이메일: <input type="email" name="memberEmail"> <br>
+    </label>
+    <label>
+        비밀번호: <input type="password" name="memberPassword"> <br>
+    </label>
+    <label>
+        이름 : <input type="text" name="memberName"> <br>
+    </label>
+    <input type="submit" value="회원가입">
+    </form>
+</body>
+</html>
