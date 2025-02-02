@@ -5,10 +5,10 @@ import com.project.memberproject.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,5 +46,38 @@ public class MemberController {
         } else {
             return "login";
         }
+    }
+
+    @GetMapping("/member")
+    public String findAll(Model model) {
+        List<MemberDTO> memberDTOList = memberService.findAll();
+        // View 템플릿에서 사용하기 위해서 Model 객체에 'memberList' 라는 이름으로 저장.
+        model.addAttribute("memberList", memberDTOList);
+        return "list";
+    }
+
+    @GetMapping("/member/{id}")
+    public String findById(@PathVariable("id") Long id, Model model) {
+        // DB에서 데이터를 조회한 후 그 값을 다시 View에 넘겨주기 위해서 Model 객체 필요함.
+        MemberDTO memberDTO = memberService.findById(id);
+        model.addAttribute("member", memberDTO);
+        return "detail";
+    }
+
+    @GetMapping("/member/update")
+    public String updateForm(HttpSession httpSession, Model model) {
+        // 세션에 있는 유저의 이메일 값을 통해 해당 유저의 전체 정보를 조회하고 이걸 Model 객체에 담아서 View로 전달.
+        String myEmail = (String) httpSession.getAttribute("loginEmail");
+        MemberDTO memberDTO = memberService.updateForm(myEmail);
+        model.addAttribute("updateMember", memberDTO);
+        return "update";
+    }
+
+    @PostMapping("/member/update")
+    public String update(@ModelAttribute MemberDTO memberDTO) {
+        memberService.update(memberDTO);
+        // update 메서드가 끝나고 다시 다른 컨트롤러 메서드로 요청을 보내도록 하는 것 : 리다이렉트.
+        // 리다이렉트 하는 이유 : 그냥 return "detail";하면 아무런 값을 전달하지않아서 뷰페이지에 값이 출력되지 않음.
+        return "redirect:/member/" + memberDTO.getId();
     }
 }

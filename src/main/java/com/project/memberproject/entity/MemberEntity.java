@@ -24,16 +24,32 @@ public class MemberEntity {
     @Column
     private String memberName;
 
+    public MemberEntity(Long id, String memberEmail, String memberName, String memberPassword) {
+        this.id = id;
+        this.memberEmail = memberEmail;
+        this.memberName = memberName;
+        this.memberPassword = memberPassword;
+    }
     public MemberEntity(String memberEmail, String memberName, String memberPassword) {
         this.memberEmail = memberEmail;
         this.memberName = memberName;
         this.memberPassword = memberPassword;
     }
 
+
     @Builder
     public static MemberEntity toMemberEntity(MemberDTO memberDTO) {
         return new MemberEntity(
                   memberDTO.getMemberEmail()
+                , memberDTO.getMemberName()
+                , memberDTO.getMemberPassword()
+        );
+    }
+    @Builder
+    public static MemberEntity updateToMemberEntity(MemberDTO memberDTO) {
+        return new MemberEntity(
+                  memberDTO.getId()
+                , memberDTO.getMemberEmail()
                 , memberDTO.getMemberName()
                 , memberDTO.getMemberPassword()
         );

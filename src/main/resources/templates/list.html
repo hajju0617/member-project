@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>list</title>
+</head>
+<body>
+<h2>list.html</h2>
+<table>
+    <tr>
+        <th>id</th>
+        <th>memberEmail</th>
+        <th>memberName</th>
+        <th>memberPassword</th>
+        <th>상세조회</th>
+        <th>삭제</th>
+    </tr>
+    <tr th:each="member : ${memberList}">
+        <td th:text="${member.id}"></td>
+        <td th:text="${member.memberEmail}"></td>
+        <td th:text="${member.memberName}"></td>
+        <td th:text="${member.memberPassword}"></td>
+        <td>
+            <a th:href="@{|/member/${member.id}|}">조회</a>
+        </td>
+        <td>
+            <a th:href="@{|/member/delete/${member.id}|}">삭제</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<form action="/member/update" method="post">
+    <input type="hidden" name="id" th:value="${updateMember.id}"> <br>
+                                                                        <!--  readonly 속성 : 보이기만 하고 수정못함.  -->
+    이메일: <input type="text" name="memberEmail" th:value="${updateMember.memberEmail}" readonly> <br>
+    이름: <input type="text" name="memberName" th:value="${updateMember.memberName}"> <br>
+    비밀번호: <input type="text" name="memberPassword" th:value="${updateMember.memberPassword}"> <br>
+    <input type="submit" value="정보수정">
+</form>
+</body>
+</html>
