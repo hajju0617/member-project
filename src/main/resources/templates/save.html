@@ -13,9 +13,10 @@
     <!--  action 속성 : form에 작성한 데이터를 어디로 보낼지 지정  -->
     <form action="/member/save" method="post">
     <label>
-        <!-- name 속성 : 서버로 전송할 때 변수명 역할을 함. -->
-        이메일: <input type="email" name="memberEmail" id="memberEmail" onkeyup="emailCheck()"> <br>
+        <!-- name 속성 : 서버로 전송할 때 변수명 역할을 함.         onkeyup="emailCheck()" -->
+        이메일: <input type="email" name="memberEmail" id="memberEmail">
     </label>
+        <button type="button" onclick="emailCheck()">중복체크</button> <br>
         <span id="check-result"></span> <br>
     <label>
         비밀번호: <input type="password" name="memberPassword"> <br>
@@ -30,6 +31,11 @@
     const emailCheck = () => {
         const email = document.getElementById("memberEmail").value;
         const checkResult = document.getElementById("check-result");
+        if (!email) {
+            checkResult.style.color = "red";
+            checkResult.innerHTML = "이메일을 입력해주세요.";
+            return;
+        }
         console.log("입력값: ", email);
         $.ajax({
             // 요청방식 : post, url : "email-check", 데이터: 이메일.
