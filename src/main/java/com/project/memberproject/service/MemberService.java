@@ -3,6 +3,7 @@ package com.project.memberproject.service;
 import com.project.memberproject.dto.MemberDTO;
 import com.project.memberproject.entity.MemberEntity;
 import com.project.memberproject.repository.MemberRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -57,7 +58,31 @@ public class MemberService {
         }
     }
 
+//    @Transactional
     public void update(MemberDTO memberDTO) {
-        memberRepository.save(MemberEntity.updateToMemberEntity(memberDTO));
+        // 기존 Entity, 즉 ID가 존재하는 Entity는 save메서드 실행시 update, ID가 없으면 INSERT.
+        memberRepository.save(MemberEntity.updateMemberEntity(memberDTO));
+        // @Transactional 메서드에서 findById로 가져온 엔터티를 setter로 값을 수정하면 save메서드 없이도 DB 데이터가 수정됨.
+//        Optional<MemberEntity> optionalMember = memberRepository.findById(memberDTO.getId());
+//        if (optionalMember.isPresent()) {
+//            MemberEntity member = optionalMember.get();
+//            member.setMemberName(memberDTO.getMemberName());
+//            member.setMemberPassword(memberDTO.getMemberPassword());
+//        } else {
+//            throw new IllegalArgumentException("해당 ID를 가진 회원이 존재하지 않습니다.");
+//        }
+    }
+
+    public void deleteById(Long id) {
+        memberRepository.deleteById(id);
+    }
+
+    public String emailCheck(String memberEmail) {
+        Optional<MemberEntity> byMemberEmail = memberRepository.findByMemberEmail(memberEmail);
+        if (byMemberEmail.isPresent()) {
+            return null;
+        } else {
+            return "ok";
+        }
     }
 }

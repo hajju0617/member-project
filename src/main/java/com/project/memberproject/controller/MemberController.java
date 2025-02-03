@@ -40,7 +40,7 @@ public class MemberController {
         // HttpSession은 서버 측에서 클라이언트에 대한 정보를 저장하고 관리하는 객체.
         MemberDTO loginResult = memberService.login(memberDTO);
         if (loginResult != null) {
-            // 성공적으로 로그인한 후 해당 사용자의 이메일 정보를 HttpSession에 저장하는 역할.
+            // 성공적으로 로그인이 됐다면 해당 사용자의 이메일 정보를 HttpSession에 저장하는 역할.
             httpSession.setAttribute("loginEmail", loginResult.getMemberEmail());
             return "main";
         } else {
@@ -79,5 +79,30 @@ public class MemberController {
         // update 메서드가 끝나고 다시 다른 컨트롤러 메서드로 요청을 보내도록 하는 것 : 리다이렉트.
         // 리다이렉트 하는 이유 : 그냥 return "detail";하면 아무런 값을 전달하지않아서 뷰페이지에 값이 출력되지 않음.
         return "redirect:/member/" + memberDTO.getId();
+    }
+
+    @GetMapping("/member/delete/{id}")
+    public String deleteById(@PathVariable("id") Long id) {
+        memberService.deleteById(id);
+//        return "list"; 하게 되면 데이터 없이 뷰템플릿 껍데기만 나옴.
+        return "redirect:/member";
+    }
+
+    @GetMapping("/member/logout")
+    public String logout(HttpSession httpSession) {
+        // 세션 무효화.
+        httpSession.invalidate();
+        return "index";
+    }
+
+    @PostMapping("/member/email-check")
+    @ResponseBody
+    public String emailCheck(@RequestParam("memberEmail") String memberEmail) {
+        String checkResult = memberService.emailCheck(memberEmail);
+        if (checkResult != null) {
+            return "ok";
+        } else {
+            return "중복";
+        }
     }
 }

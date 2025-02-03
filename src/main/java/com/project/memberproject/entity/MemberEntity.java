@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -46,7 +47,7 @@ public class MemberEntity {
         );
     }
     @Builder
-    public static MemberEntity updateToMemberEntity(MemberDTO memberDTO) {
+    public static MemberEntity updateMemberEntity(MemberDTO memberDTO) {
         return new MemberEntity(
                   memberDTO.getId()
                 , memberDTO.getMemberEmail()
